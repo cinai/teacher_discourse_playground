@@ -1,5 +1,8 @@
-#html
+# directories
 html/
 ENA/output/
 older_files/
 Untitled_Folder/
+
+# files
+*.pyc
