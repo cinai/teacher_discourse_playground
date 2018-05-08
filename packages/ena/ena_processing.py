@@ -98,6 +98,9 @@ def norm_vectors_by_length(a_dict_of_vectors,a_dict_of_n_stanzas):
         a_dict_of_norm_vectors[k] = v / a_dict_of_n_stanzas[k]
     return a_dict_of_norm_vectors
 
+def norm_matrix_by_length(a_matrix,n_stanzas):
+    return a_matrix / n_stanzas
+
 def sub_vectors(a_dict_of_vectors,a_vector):
     a_dict_of_sub_vectors = {}
     for k, v in a_dict_of_vectors.items():
