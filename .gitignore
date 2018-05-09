@@ -3,6 +3,15 @@ html/
 ENA/output/
 older_files/
 Untitled_Folder/
+Pair_of_words/
+Preprocessing/
+Words/
+useful_examples/
+ENA/.ipynb_checkpoints/
+.ipynb_checkpoints/
+
 
 # files
 *.pyc
+*.svg
+*.csv
