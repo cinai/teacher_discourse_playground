@@ -5,7 +5,7 @@ import text_preprocessing as tp
 import matplotlib.pyplot as plt, mpld3
 import matplotlib.patches as mpatches
 
-root_path = os.path.join("..","..","..")
+root_path = os.path.join("..","..")
 data_path = os.path.join(root_path,'data')
 by_grade_and_content = os.path.join(data_path,'textos_ulloa_by_grade_content')
 
