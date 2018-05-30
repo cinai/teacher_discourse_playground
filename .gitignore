@@ -1,6 +1,7 @@
 # directories
 html/
 ENA/output/
+ENA/Sessions/
 older_files/
 Untitled_Folder/
 Pair_of_words/
@@ -15,3 +16,5 @@ ENA/.ipynb_checkpoints/
 *.pyc
 *.svg
 *.csv
+*.pdf
+*.png
