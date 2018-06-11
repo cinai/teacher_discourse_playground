@@ -38,17 +38,55 @@ def filter_by_duration(length_dict,text_dict,min_length=20):
 
 
 #--- Split documents ---
+def split_excels(lines_dict,label_dict,period_length=10,overlap_length=5,n_seconds_per_line=5):
+    documents_splitted = {}
+    labels_splitted = {}
+    for doc in lines_dict.keys():
+        doc_text = lines_dict[doc]
+        #doc_text = map(str,lines_dict[doc])
+        
+        n_lineas = len(doc_text)
+        n_lineas_period = int((period_length*60)/n_seconds_per_line)# n lineas of a number of minutes
+        n_lineas_overlap = int((overlap_length*60/n_seconds_per_line))
 
+        shift = (n_lineas_period - n_lineas_overlap)
 
-def split_documents(text_dict,label_dict,period_length=10,overlap_length=5):
+        iteration = 0
+        i = 0
+        j = 0
+        while j + shift < n_lineas:
+            
+            i = iteration * shift
+            j = i + n_lineas_period
+
+            key_doc_splitted = doc+'_period_'+str(iteration)
+            try:
+                documents_splitted[key_doc_splitted] = '\n'.join(doc_text[i:j])
+            except:
+                print doc_text[i:j]
+                raise
+            labels_splitted[key_doc_splitted] = '_'.join(['period',str(iteration),label_dict[doc]])
+            
+            iteration += 1
+
+        if (j + shift) - n_lineas < 0.3 * shift :
+            key_doc_splitted = doc+'_period_'+str(iteration)
+            documents_splitted[key_doc_splitted] = '\n'.join(doc_text[-n_lineas_period:])
+            labels_splitted[key_doc_splitted] = '_'.join(['end',label_dict[doc]])
+        else:
+            labels_splitted[key_doc_splitted] = '_'.join(['end',label_dict[doc]])
+
+    return documents_splitted,labels_splitted
+
+def split_documents(text_dict,label_dict,period_length=10,overlap_length=5,n_seconds_per_line=5):
     documents_splitted = {}
     labels_splitted = {}
     for doc in text_dict.keys():
         doc_text = text_dict[doc].splitlines()
         
         n_lineas = len(doc_text)
-        n_lineas_period = int((period_length*60)/5)# n lineas of a number of minutes
-        n_lineas_overlap = int((overlap_length*60/5))
+        n_lineas_period = int((period_length*60)/n_seconds_per_line)# n lineas of a number of minutes
+        n_lineas_overlap = int((overlap_length*60/n_seconds_per_line))
 
         shift = (n_lineas_period - n_lineas_overlap)
 
@@ -75,7 +113,7 @@ def split_documents(text_dict,label_dict,period_length=10,overlap_length=5):
 
     return documents_splitted,labels_splitted
 
-def get_labels_and_splitted_documents_by_session(text_dict,label_dict,period_length=10,overlap_length=5):
+def get_labels_and_splitted_documents_by_session(text_dict,label_dict,period_length=10,overlap_length=5,n_seconds_per_line=5):
     documents_splitted_by_session = {}
     labels_splitted_by_session = {}
     for doc in text_dict.keys():
@@ -84,8 +122,8 @@ def get_labels_and_splitted_documents_by_session(text_dict,label_dict,period_len
 
         doc_text = text_dict[doc].splitlines()
         n_lineas = len(doc_text)
-        n_lineas_period = int((period_length*60)/5)# n lineas of a number of minutes
-        n_lineas_overlap = int((overlap_length*60/5))
+        n_lineas_period = int((period_length*60)/n_seconds_per_line)# n lineas of a number of minutes
+        n_lineas_overlap = int((overlap_length*60/n_seconds_per_line))
 
         shift = (n_lineas_period - n_lineas_overlap)
         

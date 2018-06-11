@@ -32,7 +32,8 @@ def get_co_occurrence(list_of_topic_words,list_of_topic_scores,msw,topic_score_w
     adj_matrix = get_sqrt_product_matrix(msw_topic_score[0])
     return adj_matrix
 
-def get_co_occurrence_matrices(text_dict,selected_t_words,selected_t_scores,topic_score_word_dict,msw_length=5):
+def get_co_occurrence_matrices(text_dict,selected_t_words,selected_t_scores,\
+    topic_score_word_dict,msw_length=5):
 	co_occurrence_matrices = {}
 	labels_array_matrices = []
 	n_topics = len(selected_t_scores)
@@ -42,7 +43,8 @@ def get_co_occurrence_matrices(text_dict,selected_t_words,selected_t_scores,topi
 	    for i in range(len(doc_lines)):
 	        if i <= len(doc_lines)-msw_length:
 	            j = i+msw_length
-	            a_co_occurrence_matrix += get_co_occurrence(selected_t_words,selected_t_scores,doc_lines[i:j],topic_score_word_dict)
+	            a_co_occurrence_matrix += get_co_occurrence(selected_t_words,\
+                    selected_t_scores,doc_lines[i:j],topic_score_word_dict)
 	    co_occurrence_matrices[document] = a_co_occurrence_matrix
 	    labels_array_matrices.append(document)
 	return co_occurrence_matrices,labels_array_matrices
@@ -77,7 +79,7 @@ def norm_vectors(a_dict_of_vectors):
 
 def get_n_stanzas_by_doc(a_doc_n_lines,stanza_size,shift):
     shift_lines = shift
-    return (a_doc_n_lines-(stanza_size-1))/shift_lines
+    return (a_doc_n_lines-(stanza_size-1.0))/shift_lines
 
 def get_n_stanzas_by_dict(a_dict_of_d_length,stanza_size,shift):
     a_dict = {}
@@ -95,7 +97,7 @@ def norm_vectors_by_number(a_dict_of_vectors,a_number):
 def norm_vectors_by_length(a_dict_of_vectors,a_dict_of_n_stanzas):
     a_dict_of_norm_vectors = {}
     for k, v in a_dict_of_vectors.items():
-        a_dict_of_norm_vectors[k] = v / a_dict_of_n_stanzas[k]
+        a_dict_of_norm_vectors[k] = v / a_dict_of_n_stanzas[k]*1.0
     return a_dict_of_norm_vectors
 
 def norm_matrix_by_length(a_matrix,n_stanzas):
