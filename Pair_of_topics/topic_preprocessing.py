@@ -100,9 +100,9 @@ STOPWORDS = stopwords.words('spanish') + ['está','va','si']
 # replace words in a string according to the sets defined above
 def replace_words(x):
     for key,value in set_to_be_replaced.items():
-        text = key
+        text = ' '+key+' '
         for y in value:
-            my_regex = r"\b" + re.escape(y) + r"\b"
+            my_regex = r'\s?'+re.escape(y)+r'[\s.,;\-!:]?'
             x = re.sub(my_regex,text,x)
     return x
 
@@ -117,12 +117,12 @@ def stemming(word):
         return word
 
 with open('names.txt','rb') as f:
-    NAMES = [x.rstrip() for x in f.readlines()]
+    NAMES = [x.rstrip() for x in reversed(f.readlines())]
 
 def detect_names(x):
-    text = 'A_NAME'
+    text = ' A_NAME '
     for y in NAMES:
-        my_regex = r"\b" + re.escape(y) + r"\b"
+        my_regex = r'\s'+re.escape(y)+r'[\s.,;\-!:]?'
         x = re.sub(my_regex,text,x)
     return x
 
@@ -164,7 +164,8 @@ def preprocessing(x,isexample=False,withStopWords=False,withStemming=False):
     x = x.replace(':',' ')
     x = x.replace(';',' ')
     x = x.replace('.',' ')
-
+    x = x.replace('-',' ')
+    
     if isexample:
         print('Remove Symbols:')
         print('\t'+x)
